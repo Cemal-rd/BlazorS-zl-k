@@ -14,7 +14,7 @@ namespace Blazorsozluk.Api.Models
         public Guid EntryId { get; set; }
         public virtual Entry Entry { get; set; }
         public virtual User CreatedBy { get; set; }
-        public virtual ICollection<EntryCommentVotes> EntryCommentVotes { get; set; }
+        public virtual ICollection<EntryCommentVote> EntryCommentVote { get; set; }
         public virtual ICollection<EntryCommentFavorite> EntryCommentFavorite { get; set; }
     }
 }

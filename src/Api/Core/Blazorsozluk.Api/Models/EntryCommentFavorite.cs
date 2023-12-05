@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Blazorsozluk.Api.Models
 {
-   public class EntryFavorite:BaseEntity
+   public class EntryCommentFavorite:BaseEntity
     {
-        public Guid EntryId { get; set; }
+        public Guid EntryCommentId { get; set; }
         public Guid CreatedById { get; set; }
-        public virtual Entry Entry { get; set; }
+        public virtual EntryComment EntryComment { get; set; }
         public virtual User CreatedUser { get; set; }
     }
 }
