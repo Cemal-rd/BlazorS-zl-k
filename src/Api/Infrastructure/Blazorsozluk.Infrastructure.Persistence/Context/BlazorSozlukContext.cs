@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace Blazorsozluk.Infrastructure.Persistence.Context
 {
-    public class BlazorSozlukContext:DbContext
+    public class BlazorSozlukContext : DbContext
     {
         public const string DEFAULT_SCHEMA = "dbo";
+        public BlazorSozlukContext()
+        {
 
+        }
         public BlazorSozlukContext(DbContextOptions options) : base(options)
         {
 
@@ -25,6 +28,17 @@ namespace Blazorsozluk.Infrastructure.Persistence.Context
         public DbSet<EntryCommentFavorite> EntryCommentFavorites { get; set; }
         public DbSet<EntryCommentVote> EntryCommentVotes { get; set; }
         public DbSet<EmailConfirmation> EmailConfirmations { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connStr = "server=DESKTOP-IROQ19K\\\\SQLEXPRESS; database=BlazorSozluk ; integrated security=true; TrustServerCertificate=True; User Id=Chiwen; Password=Ce123!";
+                optionsBuilder.UseSqlServer(connStr, opt =>
+                {
+                    opt.EnableRetryOnFailure();
+                });
+            };
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
