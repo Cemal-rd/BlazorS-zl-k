@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blazorsozluk.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(BlazorSozlukContext))]
-    [Migration("20231206011756_InitMigration")]
+    [Migration("20231210035746_InitMigration")]
     partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("entryvote", "dbo");
+                    b.ToTable("entry", "dbo");
                 });
 
             modelBuilder.Entity("Blazorsozluk.Api.Models.EntryComment", b =>
@@ -203,7 +203,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("EntryId");
 
-                    b.ToTable("entry", "dbo");
+                    b.ToTable("entryvote", "dbo");
                 });
 
             modelBuilder.Entity("Blazorsozluk.Api.Models.User", b =>

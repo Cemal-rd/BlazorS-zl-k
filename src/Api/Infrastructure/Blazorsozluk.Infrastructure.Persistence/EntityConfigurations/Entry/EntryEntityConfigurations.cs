@@ -14,7 +14,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.EntityConfigurations.Entry
         public override void Configure(EntityTypeBuilder<Api.Models.Entry> builder)
         {
             base.Configure(builder);
-            builder.ToTable("entryvote", BlazorSozlukContext.DEFAULT_SCHEMA);
+            builder.ToTable("entry", BlazorSozlukContext.DEFAULT_SCHEMA);
             builder.HasOne(i => i.CreatedBy)
                 .WithMany(i => i.Entries)
                 .HasForeignKey(i => i.CreatedById);

@@ -32,6 +32,11 @@ namespace Blazorsozluk.Infrastructure.Persistence.Context
             var dbContextBuilder = new DbContextOptionsBuilder();
             dbContextBuilder.UseSqlServer(configuration["BlazorSozlukDbConnectionstring"]);
             var context=new BlazorSozlukContext(dbContextBuilder.Options);
+            //if(context.Users.Any())
+            //{
+            //    await Task.CompletedTask;
+            //    return;
+            //}
             var users = GetUsers();
             var userIds=users.Select(i => i.Id);
             await context.Users.AddRangeAsync(users);

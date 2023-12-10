@@ -47,7 +47,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "entryvote",
+                name: "entry",
                 schema: "dbo",
                 columns: table => new
                 {
@@ -59,35 +59,12 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_entryvote", x => x.Id);
+                    table.PrimaryKey("PK_entry", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_entryvote_user_CreatedById",
+                        name: "FK_entry_user_CreatedById",
                         column: x => x.CreatedById,
                         principalSchema: "dbo",
                         principalTable: "user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "entry",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EntryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    VoteType = table.Column<int>(type: "int", nullable: false),
-                    CreatedByID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_entry", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_entry_entryvote_EntryId",
-                        column: x => x.EntryId,
-                        principalSchema: "dbo",
-                        principalTable: "entryvote",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,10 +84,10 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_entrycomment", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_entrycomment_entryvote_EntryId",
+                        name: "FK_entrycomment_entry_EntryId",
                         column: x => x.EntryId,
                         principalSchema: "dbo",
-                        principalTable: "entryvote",
+                        principalTable: "entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -136,10 +113,10 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 {
                     table.PrimaryKey("PK_entryfavorite", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_entryfavorite_entryvote_EntryId",
+                        name: "FK_entryfavorite_entry_EntryId",
                         column: x => x.EntryId,
                         principalSchema: "dbo",
-                        principalTable: "entryvote",
+                        principalTable: "entry",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -149,6 +126,29 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                         principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "entryvote",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EntryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VoteType = table.Column<int>(type: "int", nullable: false),
+                    CreatedByID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_entryvote", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_entryvote_entry_EntryId",
+                        column: x => x.EntryId,
+                        principalSchema: "dbo",
+                        principalTable: "entry",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -204,10 +204,10 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_entry_EntryId",
+                name: "IX_entry_CreatedById",
                 schema: "dbo",
                 table: "entry",
-                column: "EntryId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_entrycomment_CreatedById",
@@ -252,20 +252,16 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 column: "EntryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_entryvote_CreatedById",
+                name: "IX_entryvote_EntryId",
                 schema: "dbo",
                 table: "entryvote",
-                column: "CreatedById");
+                column: "EntryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "emailconfirmation",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
-                name: "entry",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -281,11 +277,15 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "entryvote",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "entrycomment",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "entryvote",
+                name: "entry",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

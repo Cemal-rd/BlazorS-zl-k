@@ -70,7 +70,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CreatedById");
 
-                    b.ToTable("entryvote", "dbo");
+                    b.ToTable("entry", "dbo");
                 });
 
             modelBuilder.Entity("Blazorsozluk.Api.Models.EntryComment", b =>
@@ -201,7 +201,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("EntryId");
 
-                    b.ToTable("entry", "dbo");
+                    b.ToTable("entryvote", "dbo");
                 });
 
             modelBuilder.Entity("Blazorsozluk.Api.Models.User", b =>
