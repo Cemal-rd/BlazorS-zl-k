@@ -32,7 +32,7 @@ namespace Blazorsozluk.Infrastructure.Persistence.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connStr = "server=DESKTOP-IROQ19K\\\\SQLEXPRESS; database=BlazorSozluk ; integrated security=true; TrustServerCertificate=True; User Id=Chiwen; Password=Ce123!";
+                var connStr = "server=DESKTOP-IROQ19K\\SQLEXPRESS; database=BlazorSozluk ; integrated security=true; TrustServerCertificate=True;";
                 optionsBuilder.UseSqlServer(connStr, opt =>
                 {
                     opt.EnableRetryOnFailure();
