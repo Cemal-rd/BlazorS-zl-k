@@ -10,6 +10,5 @@ namespace BlazorSozluk.Api.Application.Interfaces
     public interface IUserRepository:IGenericRepository<User>
     {
        
-
     }
 }
