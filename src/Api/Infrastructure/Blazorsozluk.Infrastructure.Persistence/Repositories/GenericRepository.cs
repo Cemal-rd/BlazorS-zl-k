@@ -16,18 +16,21 @@ namespace Blazorsozluk.Infrastructure.Persistence.Repositories
         private readonly BlazorSozlukContext dbContext;
         protected DbSet<TEntity> entity => dbContext.Set<TEntity>();
 
+
         public GenericRepository(BlazorSozlukContext dbContext)
         {
             this.dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
         }
 
-        public Task<int> AddAsync(TEntity entity)
+        #region Insert Methods
+        public virtual async Task<int> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            await this.entity.AddAsync(entity);
+            return await dbContext.SaveChangesAsync();
         }
 
-        public int Add(TEntity entity)
+        public virtual int Add(TEntity entity)
         {
             throw new NotImplementedException();
         }
@@ -41,61 +44,87 @@ namespace Blazorsozluk.Infrastructure.Persistence.Repositories
         {
             throw new NotImplementedException();
         }
+        #endregion
+        #region Update methods
+        public virtual async Task<int> UpdateAsync(TEntity entity)
+        {
+            this.entity.Attach(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
+            return await dbContext.SaveChangesAsync();
 
-        public Task<int> UpdateAsync(TEntity entity)
+        }
+
+        public virtual int Update(TEntity entity)
+        {
+            this.entity.Attach(entity);
+            dbContext.Entry(entity).State = EntityState.Modified;
+            return dbContext.SaveChanges();
+        }
+        #endregion
+        #region Delete METHODS
+        public virtual async Task<int> DeleteAsync(TEntity entity)
+        {
+            if (dbContext.Entry(entity).State==EntityState.Detached)
+            {
+                this.entity.Attach(entity);
+            }
+            this.entity.Remove(entity);
+            return await dbContext.SaveChangesAsync();
+        }
+
+        public virtual int Delete(TEntity entity)
+        {
+            if (dbContext.Entry(entity).State == EntityState.Detached)
+            {
+                this.entity.Attach(entity);
+            }
+            this.entity.Remove(entity);
+            return  dbContext.SaveChanges();
+        }
+
+        public virtual Task<int> DeleteAsync(Guid id)
+        {
+            var entity = this.entity.Find(id);
+            return DeleteAsync(entity);
+        }
+
+        public virtual int Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public int Update(TEntity entity)
+        public virtual bool DeleteRange(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            dbContext.RemoveRange(predicate);
+            return dbContext.SaveChanges() > 0;
         }
 
-        public Task<int> DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteRangeAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            throw new NotImplementedException();
+            dbContext.RemoveRange(predicate);
+            return await dbContext.SaveChangesAsync() > 0;
+        }
+        #endregion
+        #region AddOrUpdate Methods
+        public virtual Task<int> AddOrUpdateAsync(TEntity entity)
+        {
+            if (!this.entity.Local.Any(i => EqualityComparer<Guid>.Default.Equals(i.Id, entity.Id)))
+                dbContext.Update(entity);
+            return dbContext.SaveChangesAsync();
         }
 
-        public int Delete(TEntity entity)
+        public virtual int AddOrUpdate(TEntity entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> DeleteAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteRange(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteRangeAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<int> AddOrUpdateAsync(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int AddOrUpdate(TEntity entity)
-        {
-            throw new NotImplementedException();
+            if (!this.entity.Local.Any(i => EqualityComparer<Guid>.Default.Equals(i.Id, entity.Id)))
+                dbContext.Update(entity);
+            return dbContext.SaveChanges();
         }
 
         public IQueryable<TEntity> AsQueryable()
         {
             throw new NotImplementedException();
         }
+        #endregion
 
         public Task<List<TEntity>> GetAll(bool noTracking = true)
         {
