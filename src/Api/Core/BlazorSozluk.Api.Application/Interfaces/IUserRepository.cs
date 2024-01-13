@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Api.Application.Interfaces
 {
-    public interface IUserRepository:IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
-       
     }
 }

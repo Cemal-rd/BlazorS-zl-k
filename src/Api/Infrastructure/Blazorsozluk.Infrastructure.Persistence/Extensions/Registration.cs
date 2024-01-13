@@ -1,4 +1,6 @@
 ﻿using Blazorsozluk.Infrastructure.Persistence.Context;
+using Blazorsozluk.Infrastructure.Persistence.Repositories;
+using BlazorSozluk.Api.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,8 +24,9 @@ namespace Blazorsozluk.Infrastructure.Persistence.Extensions
                     opt.EnableRetryOnFailure();
                 });
             });
-            var seedData = new SeedData();
-            seedData.SeedAsync(configuration).GetAwaiter().GetResult();
+            //var seedData = new SeedData();
+            //seedData.SeedAsync(configuration).GetAwaiter().GetResult();
+            services.AddScoped<IUserRepository,UserRepository>();
             return services;
         }
     }

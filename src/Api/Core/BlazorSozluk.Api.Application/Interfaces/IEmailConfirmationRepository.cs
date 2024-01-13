@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace BlazorSozluk.Api.Application.Interfaces
 {
-    public interface IEntryRepository : IGenericRepository<Entry>
+    public interface IEmailConfirmationRepository : IGenericRepository<EmailConfirmation>
     {
-
     }
 }
