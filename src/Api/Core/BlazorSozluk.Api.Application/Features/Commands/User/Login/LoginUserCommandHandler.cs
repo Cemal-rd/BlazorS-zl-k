@@ -15,7 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazorSozluk.Api.Application.Features.Commands.User
+namespace BlazorSozluk.Api.Application.Features.Commands.User.Login
 {
     public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, LoginUserViewModel>
     {
@@ -37,7 +37,7 @@ namespace BlazorSozluk.Api.Application.Features.Commands.User
             if (dbUser == null)
                 throw new DatabaseValidationException("User not found!");
             //burası daha sonradüzelticlecek
-            var pass = (request.Password);
+            var pass = request.Password;
             if (dbUser.Password != pass)
                 throw new DatabaseValidationException("Password is wrong!");
 
